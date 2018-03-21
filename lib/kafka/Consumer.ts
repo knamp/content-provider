@@ -83,8 +83,9 @@ export default class Consumer extends EventEmitter {
   private async handleMessage(message: any) {
 
     const messageContent: ConsumerPayloadInterface = {
-        key: message.key,
-        url: message.value.url,
+        content: message.value.content,
+        key: message.key.toString("utf8"),
+        path: message.value.path,
     };
 
     await this.process(messageContent);

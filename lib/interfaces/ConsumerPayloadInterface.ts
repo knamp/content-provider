@@ -1,4 +1,5 @@
 export default interface ConsumerPayloadInterface {
     key: string;
-    url: string;
+    path: string;
+    content?: string;
 }

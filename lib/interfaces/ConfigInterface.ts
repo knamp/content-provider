@@ -36,6 +36,10 @@ export default interface ConfigInterface {
   };
   webserver: {
    port?: number;
+   contentMaxAgeSec?: number;
+  };
+  database: {
+    fromMemory?: boolean;
   };
   consumerOptions?: {
     batchSize?: number;

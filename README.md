@@ -15,7 +15,7 @@ import ContentProvider from "knamp-content-provider";
 
 (async () => {
 
-  const processor = await ContentProvider({
+  const server = await ContentProvider({
     clientName: "transmitter-client",
     consumeFrom: "produce-topic",
     groupId: "transmitter-group",
@@ -24,7 +24,23 @@ import ContentProvider from "knamp-content-provider";
     },
   });
 
-  processor.on("error", (error) => {
+  server.on("served", (data) => {
+    console.log("served", data);
+  });
+
+  server.on("missed", (data) => {
+    console.log("missed", data);
+  });
+
+  server.on("stored", (data) => {
+    console.log("stored", data);
+  });
+
+  server.on("deleted", (data) => {
+    console.log("deleted", data);
+  });
+
+  server.on("error", (error) => {
     console.error(error);
   });
 })();
