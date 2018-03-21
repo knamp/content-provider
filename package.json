@@ -1,0 +1,29 @@
+{
+  "name": "knamp-content-provider",
+  "version": "0.1.0",
+  "description": "Process and store HTML content from Apache Kafka and provide via API.",
+  "main": "dist/index.js",
+  "repository": "git@github.com:knamp/content-provider.git",
+  "author": "Christian Fröhlingsdorf <chris@5cf.de>",
+  "license": "MIT",
+  "scripts": {
+    "start": "yarn build && yarn test",
+    "test": "node dist/test/sample.js",
+    "ts:lint": "tslint -c tslint.json '**/*.ts'",
+    "ts:build": "rm -rf dist/ && tsc -p tsconfig.json",
+    "ts:watch": "yarn ts:build --watch",
+    "build": "yarn ts:build",
+    "prepublishOnly": "yarn build"
+  },
+  "dependencies": {
+    "cors": "^2.8.4",
+    "express": "^4.16.3",
+    "sinek": "~6.15.0",
+    "uuid": "^3.2.1"
+  },
+  "devDependencies": {
+    "@types/node": "~9.4.7",
+    "tslint": "~5.9.1",
+    "typescript": "~2.7.2"
+  }
+}
