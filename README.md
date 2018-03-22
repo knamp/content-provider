@@ -18,6 +18,9 @@ import ContentProvider from "knamp-content-provider";
   const server = await ContentProvider({
     clientName: "transmitter-client",
     consumeFrom: "produce-topic",
+    database: {
+      fromMemory: true,
+    },
     groupId: "transmitter-group",
     webserver: {
       port: 8855,
