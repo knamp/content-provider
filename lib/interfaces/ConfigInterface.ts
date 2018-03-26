@@ -35,8 +35,8 @@ export default interface ConfigInterface {
     partitionerType?: number,
   };
   webserver: {
-   port?: number;
-   contentMaxAgeSec?: number;
+    port?: number;
+    contentMaxAgeSec?: number;
   };
   database: {
     fromMemory?: boolean;

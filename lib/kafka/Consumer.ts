@@ -52,7 +52,7 @@ export default class Consumer extends EventEmitter {
   public close(): void {
 
     if (this.consumer) {
-        this.consumer.close();
+      this.consumer.close();
     }
   }
 
@@ -83,9 +83,9 @@ export default class Consumer extends EventEmitter {
   private async handleMessage(message: any) {
 
     const messageContent: ConsumerPayloadInterface = {
-        content: message.value.content,
-        key: message.key.toString("utf8"),
-        path: message.value.path,
+      content: message.value.content,
+      key: message.key.toString("utf8"),
+      path: message.value.path,
     };
 
     await this.process(messageContent);
