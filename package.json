@@ -1,6 +1,6 @@
 {
   "name": "knamp-content-provider",
-  "version": "0.4.3",
+  "version": "0.4.4",
   "description": "Process and store HTML content from Apache Kafka and provide via API.",
   "main": "dist/index.js",
   "repository": "git@github.com:knamp/content-provider.git",
