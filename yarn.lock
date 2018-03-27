@@ -793,9 +793,9 @@ node-gyp@^3.6.2:
     tar "^2.0.0"
     which "1"
 
-node-rdkafka@~2.3.1:
-  version "2.3.1"
-  resolved "https://registry.yarnpkg.com/node-rdkafka/-/node-rdkafka-2.3.1.tgz#1c10b85c997243d50a14b09c03ee8f2370df8d56"
+node-rdkafka@~2.2.3:
+  version "2.2.3"
+  resolved "https://registry.yarnpkg.com/node-rdkafka/-/node-rdkafka-2.2.3.tgz#05d8cafdbaf27bf1e8ef2b8e5bf39afb59a2e701"
   dependencies:
     bindings "1.x"
     nan "2.x"
@@ -1060,9 +1060,9 @@ signal-exit@^3.0.0:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/signal-exit/-/signal-exit-3.0.2.tgz#b5fdc08f1287ea1178628e415e25132b73646c6d"
 
-sinek@~6.15.0:
-  version "6.15.0"
-  resolved "https://registry.yarnpkg.com/sinek/-/sinek-6.15.0.tgz#b516cef1cb8ae29e495beda5f71d48b95c1b6467"
+sinek@^6.15.1:
+  version "6.15.1"
+  resolved "https://registry.yarnpkg.com/sinek/-/sinek-6.15.1.tgz#e28c2042be17bfccd89a3c3e0d434418d6f09ef0"
   dependencies:
     async "~2.6.0"
     bluebird "~3.5.1"
@@ -1072,7 +1072,7 @@ sinek@~6.15.0:
     murmurhash "~0.0.2"
     uuid "~3.2.1"
   optionalDependencies:
-    node-rdkafka "~2.3.1"
+    node-rdkafka "~2.2.3"
 
 snappy@^6.0.1:
   version "6.0.1"
