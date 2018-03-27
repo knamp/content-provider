@@ -1,3 +1,4 @@
+import merge from "lodash.merge";
 import ConfigInterface from "./lib/interfaces/ConfigInterface";
 
 import WebServer from "./lib/WebServer";
@@ -27,7 +28,7 @@ const defaultOptions = {
 };
 
 export default async (options: ConfigInterface): Promise<WebServer> => {
-  const config: ConfigInterface = Object.assign({}, defaultOptions, options);
+  const config: ConfigInterface = merge(defaultOptions, options);
   const server = new WebServer(config);
   await server.start();
   return server;

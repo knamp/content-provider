@@ -18,6 +18,7 @@
   "dependencies": {
     "cors": "~2.8.4",
     "express": "~4.16.3",
+    "lodash.merge": "^4.6.1",
     "sequelize": "~4.37.3",
     "sinek": "~6.15.0",
     "uuid": "^3.2.1"
