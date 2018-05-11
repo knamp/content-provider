@@ -6,8 +6,10 @@ import * as express from "express";
 import ConfigInterface from "./interfaces/ConfigInterface";
 import ConsumerPayloadInterface from "./interfaces/ConsumerPayloadInterface";
 
+import ContentController from "./controllers/ContentController";
 import Database from "./database/Database";
 import Consumer from "./kafka/Consumer";
+import healthRoutes from "./routes/health";
 
 export default class WebServer extends EventEmitter {
   private consumer: Consumer | null = null;
@@ -27,6 +29,11 @@ export default class WebServer extends EventEmitter {
       this.consumer = new Consumer(config, this.handleMessage.bind(this));
       this.consumer.on("error", this.handleError.bind(this));
     }
+
+    this.getContent = this.getContent.bind(this);
+    this.handleServed = this.handleServed.bind(this);
+    this.handleMissed = this.handleMissed.bind(this);
+    this.handleError = this.handleError.bind(this);
   }
 
   public async start(): Promise<void> {
@@ -40,41 +47,9 @@ export default class WebServer extends EventEmitter {
     const app = express();
 
     app.use(cors());
+    app.use(healthRoutes());
 
-    app.get("/admin/health", (req, res) => {
-      res.status(200).json({
-        status: "UP",
-      });
-    });
-
-    app.get("/admin/healthcheck", (req, res) => {
-      res.status(200).end();
-    });
-
-    app.get("/content/:key", async (req, res) => {
-
-      const content = await this.database.get(req.params.key);
-      if (!content) {
-
-        super.emit("missed", {
-          key: req.params.key,
-        });
-
-        return res.status(404).json({
-          error: `Content with key ${req.params.key} does not exist.`,
-        });
-      }
-
-      super.emit("served", {
-        key: req.params.key,
-      });
-
-      res.status(200);
-      res.set("content-type", "text/html");
-      res.set("cache-control", `max-age=${this.config.webserver.contentMaxAgeSec || 300}`);
-      res.write(content);
-      res.end();
-    });
+    app.get("/content/:key", this.getContent);
 
     this.server = await (new Promise((resolve, reject) => {
       let server;
@@ -104,11 +79,40 @@ export default class WebServer extends EventEmitter {
     }
   }
 
+  private async getContent(req: express.Request, res: express.Response): Promise<void> {
+    const content = new ContentController(
+      req,
+      res,
+      this.database,
+      this.config,
+    );
+
+    content.on("served", this.handleServed);
+    content.on("missed", this.handleMissed);
+    content.on("error", this.handleError);
+
+    await content.get();
+  }
+
   /**
    * If there is an error, please report it
    */
   private handleError(error: Error): void {
     super.emit("error", error);
+  }
+
+  /**
+   * If there is no content, please report it
+   */
+  private handleMissed(data: any): void {
+    super.emit("missed", data);
+  }
+
+  /**
+   * If content is served, please report it
+   */
+  private handleServed(data: any): void {
+    super.emit("served", data);
   }
 
   /**
