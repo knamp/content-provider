@@ -1,3 +1,4 @@
+import DatabaseConfigInterface from "./DatabaseConfigInterface";
 import LoggerInterface from "./LoggerInterface";
 
 export default interface ConfigInterface {
@@ -38,9 +39,7 @@ export default interface ConfigInterface {
     port?: number;
     contentMaxAgeSec?: number;
   };
-  database: {
-    fromMemory?: boolean;
-  };
+  postgres: DatabaseConfigInterface;
   consumerOptions?: {
     batchSize?: number;
     commitEveryNBatch?: number;

@@ -1,4 +1,4 @@
-import * as EventEmitter from "events";
+import { EventEmitter } from "events";
 
 import * as cors from "cors";
 import * as express from "express";
@@ -12,17 +12,16 @@ import Consumer from "./kafka/Consumer";
 import healthRoutes from "./routes/health";
 
 export default class WebServer extends EventEmitter {
-  private consumer: Consumer | null = null;
+  private consumer?: Consumer;
   private database: Database;
-  private config: ConfigInterface;
   private server?: any;
 
-  constructor(config: ConfigInterface) {
+  constructor(private config: ConfigInterface) {
     super();
 
     this.config = config;
 
-    this.database = new Database(config);
+    this.database = this.getDatabase();
     this.server = null;
 
     if (this.config.kafkaHost) {
@@ -38,7 +37,9 @@ export default class WebServer extends EventEmitter {
 
   public async start(): Promise<void> {
 
-    await this.database.connect();
+    if (this.database) {
+      await this.database.connect();
+    }
 
     if (this.consumer) {
       await this.consumer.connect();
@@ -92,6 +93,15 @@ export default class WebServer extends EventEmitter {
     content.on("error", this.handleError);
 
     await content.get();
+  }
+
+  private getDatabase() {
+    const database = new Database(this.config);
+
+    database.on("error", this.handleError);
+    database.on("info", (data) => super.emit("info", data));
+
+    return database;
   }
 
   /**

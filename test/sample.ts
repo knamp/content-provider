@@ -1,4 +1,6 @@
 import ContentProvider from "../";
+import DatabaseConfigInterface from "../lib/interfaces/DatabaseConfigInterface";
+import * as database from "./database";
 
 (async () => {
 
@@ -8,10 +10,8 @@ import ContentProvider from "../";
   const server = await ContentProvider({
     clientName: "transmitter-client",
     consumeFrom: "produce-topic",
-    database: {
-      fromMemory: true,
-    },
     groupId: "transmitter-group",
+    postgres: database as DatabaseConfigInterface,
     webserver: {
       port: 8855,
     },
@@ -20,6 +20,11 @@ import ContentProvider from "../";
   server.on("error", (error) => {
     // tslint:disable-next-line
     console.error(error);
+  });
+
+  server.on("info", (info) => {
+    // tslint:disable-next-line
+    console.log("info", info);
   });
 
   server.on("served", (data) => {

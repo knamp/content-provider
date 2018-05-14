@@ -13,21 +13,25 @@
     "ts:lint": "tslint -c tslint.json '**/*.ts'",
     "ts:build": "rm -rf dist/ && tsc -p tsconfig.json",
     "ts:watch": "yarn ts:build --watch",
+    "db:migrate": "./run-migrations.sh",
     "build": "yarn ts:build",
     "prepublishOnly": "yarn build"
   },
   "dependencies": {
     "@types/express": "^4.11.1",
     "@types/lodash": "^4.14.106",
+    "@types/node": "~9.4.7",
+    "@types/sequelize": "^4.27.17",
     "cors": "~2.8.4",
     "express": "~4.16.3",
     "lodash": "^4.17.5",
-    "sequelize": "~4.37.3",
+    "pg": "^6",
+    "sequelize": "^4.37.3",
+    "sequelize-cli": "^4.0.0",
     "sinek": "^6.15.1",
     "uuid": "^3.2.1"
   },
   "devDependencies": {
-    "@types/node": "~9.4.7",
     "concurrently": "^3.5.1",
     "nodemon": "^1.17.4",
     "tslint": "~5.9.1",

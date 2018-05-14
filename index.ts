@@ -29,6 +29,8 @@ const defaultOptions = {
 export default async (options: ConfigInterface): Promise<WebServer> => {
   const config: ConfigInterface = merge(defaultOptions, options);
   const server = new WebServer(config);
+
   await server.start();
+
   return server;
 };
