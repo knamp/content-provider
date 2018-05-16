@@ -7,7 +7,7 @@ import * as database from "./database";
   // tslint:disable-next-line
   console.log("Content-Provider starting..");
 
-  const server = await ContentProvider({
+  const server = ContentProvider({
     clientName: "transmitter-client",
     consumeFrom: "produce-topic",
     groupId: "transmitter-group",
@@ -46,6 +46,8 @@ import * as database from "./database";
     // tslint:disable-next-line
     console.log("deleted", data);
   });
+
+  await server.start();
 
   // tslint:disable-next-line
   console.log("Content-Provider running.");

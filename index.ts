@@ -26,11 +26,8 @@ const defaultOptions = {
   workerPerPartition: 1,
 };
 
-export default async (options: ConfigInterface): Promise<WebServer> => {
+export default (options: ConfigInterface): WebServer => {
   const config: ConfigInterface = merge(defaultOptions, options);
-  const server = new WebServer(config);
 
-  await server.start();
-
-  return server;
+  return new WebServer(config);
 };

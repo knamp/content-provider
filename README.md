@@ -15,7 +15,7 @@ import ContentProvider from "@knamp/content-provider";
 
 (async () => {
 
-  const server = await ContentProvider({
+  const server = ContentProvider({
     clientName: "transmitter-client",
     consumeFrom: "produce-topic",
     database: {
@@ -46,6 +46,8 @@ import ContentProvider from "@knamp/content-provider";
   server.on("error", (error) => {
     console.error(error);
   });
+
+  await server.start()
 })();
 ```
 
