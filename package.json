@@ -8,7 +8,7 @@
   "license": "MIT",
   "scripts": {
     "start": "yarn build && yarn test",
-    "start:dev": "concurrently 'nodemon dist/test/sample.js' 'yarn ts:watch'",
+    "start:dev": "nodemon test/sample.ts",
     "test": "node dist/test/sample.js",
     "ts:lint": "tslint -c tslint.json '**/*.ts'",
     "ts:build": "rm -rf dist/ && tsc -p tsconfig.json",
@@ -32,8 +32,8 @@
     "uuid": "^3.2.1"
   },
   "devDependencies": {
-    "concurrently": "^3.5.1",
     "nodemon": "^1.17.4",
+    "ts-node": "^6.0.3",
     "tslint": "~5.9.1",
     "typescript": "~2.7.2"
   }
