@@ -6,12 +6,12 @@ Process and store HTML content from Apache Kafka and provide via API.
 
 Install via yarn
 
-    yarn install knamp-content-provider
+    yarn install @knamp/content-provider
 
 Then configure it and use it
 
 ```javascript
-import ContentProvider from "knamp-content-provider";
+import ContentProvider from "@knamp/content-provider";
 
 (async () => {
 

@@ -1,5 +1,5 @@
 {
-  "name": "knamp-content-provider",
+  "name": "@knamp/content-provider",
   "version": "0.4.5",
   "description": "Process and store HTML content from Apache Kafka and provide via API.",
   "main": "dist/index.js",
