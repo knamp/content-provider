@@ -35,7 +35,7 @@ export default class WebServer extends EventEmitter {
     this.handleError = this.handleError.bind(this);
   }
 
-  public async start(): Promise<void> {
+  public async start(): Promise<express.Application> {
 
     if (this.database) {
       await this.database.connect();
@@ -63,6 +63,8 @@ export default class WebServer extends EventEmitter {
         resolve(server);
       });
     }));
+
+    return app;
   }
 
   public close(): void {
