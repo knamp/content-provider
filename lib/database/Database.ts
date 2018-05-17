@@ -97,7 +97,7 @@ export default class Database extends EventEmitter {
   private setupDatabase() {
     this.database = new SequelizeDatabase(this.config.postgres);
 
-    this.database.on("info", super.emit.bind(this, "info"));
-    this.database.on("error", super.emit.bind(this, "error"));
+    this.database.on("info", (...params) => super.emit("info", ...params));
+    this.database.on("error", (...params) => super.emit("error", ...params));
   }
 }
