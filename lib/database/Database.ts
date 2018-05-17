@@ -17,10 +17,9 @@ export default class Database extends EventEmitter {
     this.config = config;
     this.memStorage = {};
 
-    if (this.config.postgres.fromMemory) {
-      this.fromMemory = true;
-    } else {
-      this.fromMemory = false;
+    this.fromMemory = this.config.postgres.fromMemory || !this.config.postgres.username;
+
+    if (this.fromMemory) {
       this.setupDatabase();
     }
   }
