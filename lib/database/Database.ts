@@ -47,6 +47,8 @@ export default class Database extends EventEmitter {
         content,
         id: key,
       });
+    } else {
+      super.emit("error", `No model available, cannot store ${key}`);
     }
 
     return;
@@ -68,6 +70,8 @@ export default class Database extends EventEmitter {
       if (content) {
         return content.dataValues.content;
       }
+    } else {
+      super.emit("error", `No model available, cannot get ${key}`);
     }
 
     return "";
