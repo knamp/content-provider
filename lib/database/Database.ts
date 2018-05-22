@@ -56,7 +56,6 @@ export default class Database extends EventEmitter {
   }
 
   public async get(key: string): Promise<any> {
-
     if (this.fromMemory) {
       return this.memStorage[key];
     }
@@ -73,6 +72,27 @@ export default class Database extends EventEmitter {
       }
     } else {
       super.emit("error", `No model available, cannot get ${key}`);
+    }
+
+    return "";
+  }
+
+  public async getByPath(path: string): Promise<string> {
+    if (this.model) {
+      const content: any[] = await this.model.findAll({
+        order: [["createdAt", "DESC"]],
+        where: {
+          path: {
+            [Sequelize.Op.like]: `%${path}`,
+          },
+        },
+      });
+
+      if (content) {
+        return content[0].dataValues.content;
+      }
+    } else {
+      super.emit("error", `No model available, cannot getByPath ${path}`);
     }
 
     return "";

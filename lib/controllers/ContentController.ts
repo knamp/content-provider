@@ -15,15 +15,30 @@ class ContentController extends EventEmitter {
 
   public async get(): Promise<void> {
     const { key } = this.req.params;
-    const content = await this.database.get(key);
+    const content: string = await this.database.get(key);
 
+    await this.render(key, content);
+
+    return;
+  }
+
+  public async getByPath(): Promise<void> {
+    const { path } = this.req.params;
+    const content: string = await this.database.getByPath(path);
+
+    await this.render(path, content);
+
+    return;
+  }
+
+  private async render(key: string, content: string): Promise<void> {
     if (!content) {
       super.emit("missed", {
         key,
       });
 
       this.res.status(404).json({
-        error: `Content with key ${key} does not exist.`,
+        error: `Content with key or path "${key}" does not exist.`,
       });
 
       return;
@@ -38,8 +53,6 @@ class ContentController extends EventEmitter {
     this.res.set("cache-control", `max-age=${this.config.webserver.contentMaxAgeSec || 300}`);
     this.res.write(content);
     this.res.end();
-
-    return;
   }
 
 }

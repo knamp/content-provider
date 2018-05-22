@@ -29,7 +29,6 @@ export default class WebServer extends EventEmitter {
       this.consumer.on("error", this.handleError.bind(this));
     }
 
-    this.getContent = this.getContent.bind(this);
     this.handleServed = this.handleServed.bind(this);
     this.handleMissed = this.handleMissed.bind(this);
     this.handleError = this.handleError.bind(this);
@@ -50,7 +49,13 @@ export default class WebServer extends EventEmitter {
     app.use(cors());
     app.use(healthRoutes());
 
-    app.get("/content/:key", this.getContent);
+    app.get("/content/:key", async (req: express.Request, res: express.Response) => {
+      (await this.getContentController(req, res)).get();
+    });
+
+    app.get("/raw/:path*", async (req: express.Request, res: express.Response) => {
+      (await this.getContentController(req, res)).getByPath();
+    });
 
     this.server = await (new Promise((resolve, reject) => {
       let server;
@@ -82,7 +87,10 @@ export default class WebServer extends EventEmitter {
     }
   }
 
-  private async getContent(req: express.Request, res: express.Response): Promise<void> {
+  private async getContentController(
+    req: express.Request,
+    res: express.Response,
+  ): Promise<ContentController> {
     const content = new ContentController(
       req,
       res,
@@ -94,7 +102,7 @@ export default class WebServer extends EventEmitter {
     content.on("missed", this.handleMissed);
     content.on("error", this.handleError);
 
-    await content.get();
+    return content;
   }
 
   private getDatabase() {
