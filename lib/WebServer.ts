@@ -139,7 +139,7 @@ export default class WebServer extends EventEmitter {
       return await this.database.del(message.key);
     }
 
-    await this.database.set(message.key, message.content);
+    await this.database.set(message.key, message.content, message.path);
     super.emit("stored", message);
   }
 }

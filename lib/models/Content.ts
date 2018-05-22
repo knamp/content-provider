@@ -5,5 +5,6 @@ export default (sequelize, DATA_TYPES) => {
       primaryKey: true,
       type: DATA_TYPES.STRING,
     },
+    path: DATA_TYPES.STRING,
   }, {});
 };

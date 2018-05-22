@@ -36,7 +36,7 @@ export default class Database extends EventEmitter {
     }
   }
 
-  public async set(key: string, content: string): Promise<void> {
+  public async set(key: string, content: string, path: string): Promise<void> {
     if (this.fromMemory) {
       this.memStorage[key] = content;
       return;
@@ -46,6 +46,7 @@ export default class Database extends EventEmitter {
       this.model.upsert({
         content,
         id: key,
+        path,
       });
     } else {
       super.emit("error", `No model available, cannot store ${key}`);
