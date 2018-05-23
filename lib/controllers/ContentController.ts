@@ -15,18 +15,27 @@ class ContentController extends EventEmitter {
 
   public async get(): Promise<void> {
     const { key } = this.req.params;
-    const content: string = await this.database.get(key);
+    try {
+      const content: string = await this.database.get(key);
 
-    await this.render(key, content);
+      await this.render(key, content);
+    } catch (error) {
+      throw new Error(error);
+    }
 
     return;
   }
 
   public async getByPath(): Promise<void> {
-    const { path } = this.req.params;
-    const content: string = await this.database.getByPath(path);
+    const path = this.req.params[0];
 
-    await this.render(path, content);
+    try {
+      const content: string = await this.database.getByPath(path);
+
+      await this.render(path, content);
+    } catch (error) {
+      throw new Error(error);
+    }
 
     return;
   }

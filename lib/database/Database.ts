@@ -82,13 +82,11 @@ export default class Database extends EventEmitter {
       const content: any[] = await this.model.findAll({
         order: [["createdAt", "DESC"]],
         where: {
-          path: {
-            [Sequelize.Op.like]: `%${path}`,
-          },
+          path: `${path.padStart(path.length + 1, "/")}`,
         },
       });
 
-      if (content) {
+      if (content && content[0]) {
         return content[0].dataValues.content;
       }
     } else {

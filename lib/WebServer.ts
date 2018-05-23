@@ -53,7 +53,7 @@ export default class WebServer extends EventEmitter {
       (await this.getContentController(req, res)).get();
     });
 
-    app.get("/raw/:path*", async (req: express.Request, res: express.Response) => {
+    app.get("/raw/*", async (req: express.Request, res: express.Response) => {
       (await this.getContentController(req, res)).getByPath();
     });
 
