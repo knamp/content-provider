@@ -37,8 +37,12 @@ class ContentController extends EventEmitter {
         await this.render(path, entry.content);
       }
     } catch (error) {
-      this.sendError(error);
+      super.emit("missed", {
+        key: path,
+      });
     }
+
+    this.sendError(`Content with path ${path} not found`);
 
     return;
   }
