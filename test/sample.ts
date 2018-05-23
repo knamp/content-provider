@@ -1,4 +1,4 @@
-import ContentProvider from "../";
+import ContentProvider, { getByPath } from "../";
 import DatabaseConfigInterface from "../lib/interfaces/DatabaseConfigInterface";
 import * as database from "./database";
 
@@ -51,4 +51,9 @@ import * as database from "./database";
 
   // tslint:disable-next-line
   console.log("Content-Provider running.");
+
+  const content = await getByPath("missing");
+
+  // tslint:disable-next-line
+  console.log(content);
 })();

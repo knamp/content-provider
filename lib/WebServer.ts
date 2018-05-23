@@ -21,7 +21,7 @@ export default class WebServer extends EventEmitter {
 
     this.config = config;
 
-    this.database = this.getDatabase();
+    this.database = this.setupDatabase();
     this.server = null;
 
     if (this.config.kafkaHost) {
@@ -32,6 +32,10 @@ export default class WebServer extends EventEmitter {
     this.handleServed = this.handleServed.bind(this);
     this.handleMissed = this.handleMissed.bind(this);
     this.handleError = this.handleError.bind(this);
+  }
+
+  public getDatabase() {
+    return this.database;
   }
 
   public async start(): Promise<express.Application> {
@@ -105,7 +109,7 @@ export default class WebServer extends EventEmitter {
     return content;
   }
 
-  private getDatabase() {
+  private setupDatabase() {
     const database = new Database(this.config);
 
     database.on("error", this.handleError);

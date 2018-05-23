@@ -1,5 +1,6 @@
 import { merge } from "lodash";
 import ConfigInterface from "./lib/interfaces/ConfigInterface";
+import ContentInterface from "./lib/interfaces/ContentInterface";
 import WebServer from "./lib/WebServer";
 
 const defaultOptions = {
@@ -26,8 +27,23 @@ const defaultOptions = {
   workerPerPartition: 1,
 };
 
+let server: WebServer;
+
+export const getByPath = async (path: string): Promise<ContentInterface | null> => {
+  if (server) {
+    const database = server.getDatabase();
+    const entry: ContentInterface | null = await database.getByPath(path);
+
+    return entry;
+  }
+
+  return null;
+};
+
 export default (options: ConfigInterface): WebServer => {
   const config: ConfigInterface = merge(defaultOptions, options);
 
-  return new WebServer(config);
+  server = new WebServer(config);
+
+  return server;
 };

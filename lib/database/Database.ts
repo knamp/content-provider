@@ -2,6 +2,7 @@ import { EventEmitter } from "events";
 import * as Sequelize from "sequelize";
 
 import ConfigInterface from "../interfaces/ConfigInterface";
+import ContentInterface from "../interfaces/ContentInterface";
 import SequelizeDatabase from "./SequelizeDatabase";
 
 export default class Database extends EventEmitter {
@@ -77,7 +78,7 @@ export default class Database extends EventEmitter {
     return "";
   }
 
-  public async getByPath(path: string): Promise<string> {
+  public async getByPath(path: string): Promise<ContentInterface | null> {
     if (this.model) {
       const content: any[] = await this.model.findAll({
         order: [["createdAt", "DESC"]],
@@ -87,13 +88,13 @@ export default class Database extends EventEmitter {
       });
 
       if (content && content[0]) {
-        return content[0].dataValues.content;
+        return content[0].dataValues;
       }
     } else {
       super.emit("error", `No model available, cannot getByPath ${path}`);
     }
 
-    return "";
+    return null;
   }
 
   public async del(key: string): Promise<void> {

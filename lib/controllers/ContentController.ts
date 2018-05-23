@@ -2,6 +2,7 @@ import { EventEmitter } from "events";
 import { Request, Response } from "express";
 import Database from "../database/Database";
 import ConfigInterface from "../interfaces/ConfigInterface";
+import ContentInterface from "../interfaces/ContentInterface";
 
 class ContentController extends EventEmitter {
   constructor(
@@ -30,9 +31,11 @@ class ContentController extends EventEmitter {
     const path = this.req.params[0];
 
     try {
-      const content: string = await this.database.getByPath(path);
+      const entry: ContentInterface | null = await this.database.getByPath(path);
 
-      await this.render(path, content);
+      if (entry) {
+        await this.render(path, entry.content);
+      }
     } catch (error) {
       throw new Error(error);
     }

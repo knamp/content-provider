@@ -51,6 +51,20 @@ import ContentProvider from "@knamp/content-provider";
 })();
 ```
 
+You can now also get entries from the database by running
+
+```typescript
+import { getByPath } from "@knamp/content-provider";
+
+(async () => {
+  const path: string = ``;
+
+  const entry = await getByPath(path);
+
+  console.log(entry);
+})();
+```
+
 ## Development
 
 For development you need to create a local config file for the database
