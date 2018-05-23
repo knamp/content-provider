@@ -47,7 +47,7 @@ export default class Database extends EventEmitter {
       this.model.upsert({
         content,
         id: key,
-        path,
+        path: this.getPathForQuery(path),
       });
     } else {
       super.emit("error", `No model available, cannot store ${key}`);
@@ -83,7 +83,7 @@ export default class Database extends EventEmitter {
       const content: any[] = await this.model.findAll({
         order: [["createdAt", "DESC"]],
         where: {
-          path: `${path.padStart(path.length + 1, "/")}`,
+          path: this.getPathForQuery(path),
         },
       });
 
@@ -117,10 +117,17 @@ export default class Database extends EventEmitter {
     }
   }
 
-  private setupDatabase() {
+  private setupDatabase(): void {
     this.database = new SequelizeDatabase(this.config.postgres);
 
     this.database.on("info", (...params) => super.emit("info", ...params));
     this.database.on("error", (...params) => super.emit("error", ...params));
+  }
+
+  private getPathForQuery(path: string): string {
+    let queryPath = path.startsWith("/") ? path.substr(1) : path;
+    queryPath = queryPath.endsWith("/") ? path.substr(-1) : path;
+
+    return queryPath;
   }
 }

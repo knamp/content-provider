@@ -37,7 +37,7 @@ class ContentController extends EventEmitter {
         await this.render(path, entry.content);
       }
     } catch (error) {
-      throw new Error(error);
+      this.sendError(error);
     }
 
     return;
@@ -49,9 +49,7 @@ class ContentController extends EventEmitter {
         key,
       });
 
-      this.res.status(404).json({
-        error: `Content with key or path "${key}" does not exist.`,
-      });
+      this.sendError(`Content with key or path "${key}" does not exist.`);
 
       return;
     }
@@ -67,6 +65,11 @@ class ContentController extends EventEmitter {
     this.res.end();
   }
 
+  private sendError(errorMessage: string): void {
+    this.res.status(404).json({
+      error: errorMessage,
+    });
+  }
 }
 
 export default ContentController;
