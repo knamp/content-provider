@@ -79,16 +79,17 @@ export default class Database extends EventEmitter {
   }
 
   public async getByPath(path: string): Promise<ContentInterface | null> {
+
     if (this.model) {
-      const content: any[] = await this.model.findAll({
+      const content = await this.model.findOne({
         order: [["createdAt", "DESC"]],
         where: {
-          path: this.getPathForQuery(path),
+          path: `/${this.getPathForQuery(path)}`,
         },
       });
 
-      if (content && content[0]) {
-        return content[0].dataValues;
+      if (content) {
+        return content.dataValues;
       }
     } else {
       super.emit("error", `No model available, cannot getByPath ${path}`);
@@ -126,7 +127,7 @@ export default class Database extends EventEmitter {
 
   private getPathForQuery(path: string): string {
     let queryPath = path.startsWith("/") ? path.substr(1) : path;
-    queryPath = queryPath.endsWith("/") ? path.substr(-1) : path;
+    queryPath = queryPath.endsWith("/") ? path.substring(0, path.length - 1) : path;
 
     return queryPath;
   }

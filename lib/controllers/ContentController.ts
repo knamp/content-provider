@@ -16,6 +16,7 @@ class ContentController extends EventEmitter {
 
   public async get(): Promise<void> {
     const { key } = this.req.params;
+
     try {
       const content: string = await this.database.get(key);
 
@@ -35,6 +36,7 @@ class ContentController extends EventEmitter {
 
       if (entry) {
         await this.render(path, entry.content);
+        return;
       }
     } catch (error) {
       super.emit("missed", {
@@ -42,7 +44,7 @@ class ContentController extends EventEmitter {
       });
     }
 
-    this.sendError(`Content with path ${path} not found`);
+    this.sendError(`Content with path "${path}" not found`);
 
     return;
   }
