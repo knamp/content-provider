@@ -1,5 +1,7 @@
 # Content Provider
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/knamp/content-provider.svg)](https://greenkeeper.io/)
+
 Process and store HTML content from Apache Kafka and provide via API.
 
 ## Usage
